@@ -1,3 +1,5 @@
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Skyscraper {
@@ -31,7 +33,8 @@ public class Skyscraper {
     }
 
     public static void readInVariables(Scanner input) {
-        // System.out.println("Enter your variables N, M, and C, separated by one space: ");
+        // System.out.println("Enter your variables N, M, and C, separated by one space:
+        // ");
 
         n = input.nextInt();
         m = input.nextInt();
@@ -126,6 +129,92 @@ public class Skyscraper {
      */
     public static void thirdTask(Scanner stream) {
         System.out.println("You are starting the third task.");
+
+        // We are using an array of length m, which makes this algorithm operate with
+        // O(M) space
+        int[] buffer = new int[m];
+
+        int[] maxSquare = new int[2];
+        maxSquare[0] = -1;
+        maxSquare[1] = -1;
+
+        int currentMax = -1;
+
+        /* This for-loop iterates n*m times, which makes this algorithm work in Θ(N*M)
+         * time */
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int current = stream.nextInt();
+                if (current == c) {
+                    if (i == 0) {
+                        buffer[j] = 1;
+                    }
+                } else {
+                    buffer[j] = 0;
+                }
+
+                getMaxArea(buffer);
+
+                if (tmpBuf[j] > currentMax) {
+                    currentMax = tmpBuf[j];
+                    maxSquare[0] = j;
+                    maxSquare[1] = i;
+                }
+            }
+        }
+
+        int dif = currentMax - 1;
+        // As per instructions in the class online discussion section, assume x is for
+        // rows, and y is for columns
+        System.out.printf("%d %d %d %d\n", maxSquare[1] - dif + 1, maxSquare[0] - dif + 1, maxSquare[1] + 1, maxSquare[0] + 1);
+    }
+
+    public static int getMaxArea(int[] buffer) {
+        Deque<Integer> stack = new LinkedList<Integer>();
+        int maxArea = 0;
+        int area = 0;
+        int i;
+        for (i = 0; i < buffer.length;) {
+            if (stack.isEmpty() || buffer[stack.peekFirst()] <= buffer[i]) {
+                stack.offerFirst(i++);
+            } else {
+                int top = stack.pollFirst();
+                // if stack is empty means everything till i has to be
+                // greater or equal to input[top] so get area by
+                // input[top] * i;
+                if (stack.isEmpty()) {
+                    area = buffer[top] * i;
+                }
+                // if stack is not empty then everythin from i-1 to input.peek() + 1
+                // has to be greater or equal to input[top]
+                // so area = input[top]*(i - stack.peek() - 1);
+                else {
+                    area = buffer[top] * (i - stack.peekFirst() - 1);
+                }
+                if (area > maxArea) {
+                    maxArea = area;
+                }
+            }
+        }
+        while (!stack.isEmpty()) {
+            int top = stack.pollFirst();
+            // if stack is empty means everything till i has to be
+            // greater or equal to input[top] so get area by
+            // input[top] * i;
+            if (stack.isEmpty()) {
+                area = buffer[top] * i;
+            }
+            // if stack is not empty then everything from i-1 to input.peek() + 1
+            // has to be greater or equal to input[top]
+            // so area = input[top]*(i - stack.peek() - 1);
+            else {
+                area = buffer[top] * (i - stack.peekFirst() - 1);
+            }
+            if (area > maxArea) {
+                maxArea = area;
+            }
+        }
+        return maxArea;
     }
 
     /**
