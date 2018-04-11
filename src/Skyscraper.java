@@ -69,8 +69,6 @@ public class Skyscraper {
      * stream. This ensures we find our solution in Θ(N*M) time and with O(M) space.
      */
     public static void firstTask(Scanner stream) {
-        System.out.println("You are starting the first task.");
-
         // We are using two arrays of length m, which makes this algorithm operate with
         // O(2M) space, which means it is in O(M) space
         int[] buffer = new int[m];
