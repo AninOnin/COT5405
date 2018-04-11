@@ -31,13 +31,13 @@ public class Skyscraper {
     }
 
     public static void readInVariables(Scanner input) {
-        System.out.println("Enter your variables N, M, and C, separated by one space: ");
+        // System.out.println("Enter your variables N, M, and C, separated by one space: ");
 
         n = input.nextInt();
         m = input.nextInt();
         c = input.nextInt();
 
-        System.out.printf("N = %d, M = %d, C = %d.\n", n, m, c);
+        // System.out.printf("N = %d, M = %d, C = %d.\n", n, m, c);
     }
 
     /**
