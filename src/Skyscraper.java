@@ -267,7 +267,7 @@ public class Skyscraper {
      * two cells in the block.
      */
     public static void fourthTask(Scanner stream) {
-        System.out.println("You are starting the fourth task.");
+        System.out.println("Implementation is described in the report, but not done :(");
     }
 
 }
