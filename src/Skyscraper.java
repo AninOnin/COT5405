@@ -22,7 +22,7 @@ public class Skyscraper {
             secondTask(input);
             break;
         case 3:
-            thirdTask(input);
+            secondTask(input);
             break;
         case 4:
             fourthTask(input);
@@ -211,6 +211,54 @@ public class Skyscraper {
      * area rectangle block where all cells have height C.
      */
     public static void thirdTask(Scanner stream) {
+        // We are using an array of length m, which makes this algorithm operate with
+        // O(M) space
+        int[] buffer = new int[m];
+
+        int[] maxSquare = new int[2];
+        maxSquare[0] = -1;
+        maxSquare[1] = -1;
+
+        int height = -1;
+        int maxArea = -1;
+
+        /* This for-loop iterates n*m times, then we take the buffer of M size and
+         * calculate the maximum area within the histogram that it makes, which makes
+         * this algorithm work in Θ(N*M^2) time */
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int current = stream.nextInt();
+                if (current == c) {
+                    if (i != 0) {
+                        buffer[j]++;
+                    } else {
+                        buffer[j] = 1;
+                    }
+                } else {
+                    buffer[j] = 0;
+                }
+
+                int temp = getMaxArea(buffer);
+                if (maxArea < temp) {
+                    maxSquare[0] = j;
+                    maxSquare[1] = i;
+                    maxArea = temp;
+                    height = buffer[j];
+                }
+            }
+        }
+
+        int width = maxArea / height;
+        width = width - 1;
+        height = height - 1;
+
+        int x2 = maxSquare[1] + 1;
+        int y2 = maxSquare[0] + 1;
+        int x1 = x2 - height;
+        int y1 = y2 - width;
+        // As per instructions in the class online discussion section, assume x is for
+        // rows, and y is for columns
+        System.out.printf("%d %d %d %d\n", x1, y1, x2, y2);
     }
 
     /**
