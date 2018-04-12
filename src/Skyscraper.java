@@ -83,10 +83,8 @@ public class Skyscraper {
 
         int currentMax = -1;
 
-        /*
-         * This for-loop iterates n*m times, which makes this algorithm work in Θ(N*M)
-         * time
-         */
+        /* This for-loop iterates n*m times, which makes this algorithm work in Θ(N*M)
+         * time */
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 int current = stream.nextInt();
@@ -114,8 +112,7 @@ public class Skyscraper {
         int dif = currentMax - 1;
         // As per instructions in the class online discussion section, assume x is for
         // rows, and y is for columns
-        System.out.printf("%d %d %d %d\n", maxSquare[1] - dif + 1, maxSquare[0] - dif + 1, maxSquare[1] + 1,
-                maxSquare[0] + 1);
+        System.out.printf("%d %d %d %d\n", maxSquare[1] - dif + 1, maxSquare[0] - dif + 1, maxSquare[1] + 1, maxSquare[0] + 1);
     }
 
     /**
@@ -123,16 +120,6 @@ public class Skyscraper {
      * largest area rectangle block where all cells have height C.
      */
     public static void secondTask(Scanner stream) {
-        System.out.println("You are starting the second task.");
-    }
-
-    /**
-     * This is an Θ(N*M) time algorithm that uses O(M) space for computing a largest
-     * area rectangle block where all cells have height C.
-     */
-    public static void thirdTask(Scanner stream) {
-        System.out.println("You are starting the third task.");
-
         // We are using an array of length m, which makes this algorithm operate with
         // O(M) space
         int[] buffer = new int[m];
@@ -141,13 +128,12 @@ public class Skyscraper {
         maxSquare[0] = -1;
         maxSquare[1] = -1;
 
-        int currentMax = -1;
+        int height = -1;
         int maxArea = -1;
 
-        /*
-         * This for-loop iterates n*m times, which makes this algorithm work in Θ(N*M)
-         * time
-         */
+        /* This for-loop iterates n*m times, then we take the buffer of M size and
+         * calculate the maximum area within the histogram that it makes, which makes
+         * this algorithm work in Θ(N*M^2) time */
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 int current = stream.nextInt();
@@ -163,16 +149,25 @@ public class Skyscraper {
 
                 int temp = getMaxArea(buffer);
                 if (maxArea < temp) {
+                    maxSquare[0] = j;
+                    maxSquare[1] = i;
                     maxArea = temp;
+                    height = buffer[j];
                 }
             }
         }
 
-        int dif = currentMax - 1;
+        int width = maxArea / height;
+        width = width - 1;
+        height = height - 1;
+
+        int x2 = maxSquare[1] + 1;
+        int y2 = maxSquare[0] + 1;
+        int x1 = x2 - height;
+        int y1 = y2 - width;
         // As per instructions in the class online discussion section, assume x is for
         // rows, and y is for columns
-        System.out.printf("%d %d %d %d\n", maxSquare[1] - dif + 1, maxSquare[0] - dif + 1, maxSquare[1] + 1,
-                maxSquare[0] + 1);
+        System.out.printf("%d %d %d %d\n", x1, y1, x2, y2);
     }
 
     public static int getMaxArea(int[] buffer) {
@@ -209,6 +204,13 @@ public class Skyscraper {
             }
         }
         return maxArea;
+    }
+
+    /**
+     * This is an Θ(N*M) time algorithm that uses O(M) space for computing a largest
+     * area rectangle block where all cells have height C.
+     */
+    public static void thirdTask(Scanner stream) {
     }
 
     /**
